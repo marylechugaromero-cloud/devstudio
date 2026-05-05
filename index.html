@@ -1,0 +1,1326 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>DevStudio — Servicios de Programación</title>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --bg:       #0a0d14;
+      --surface:  #111520;
+      --card:     #161c2d;
+      --accent:   #00e5a0;
+      --accent2:  #0ff;
+      --text:     #e8eaf0;
+      --muted:    #7a829a;
+      --border:   rgba(255,255,255,0.07);
+      --glow:     0 0 40px rgba(0,229,160,0.18);
+      --font-h:   'Syne', sans-serif;
+      --font-b:   'DM Sans', sans-serif;
+      --r:        14px;
+    }
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-b);
+  font-size: 16px;
+  line-height: 1.7;
+  overflow-x: hidden;
+}
+
+a { text-decoration: none; color: inherit; }
+
+img { max-width: 100%; }
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+  pointer-events: none;
+  opacity: .4;
+}
+.grid-bg {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  background-image:
+    linear-gradient(rgba(255,255,255,.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,.025) 1px, transparent 1px);
+  background-size: 60px 60px;
+  pointer-events: none;
+}
+nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 48px;
+  background: rgba(10,13,20,.8);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border);
+}
+
+.logo {
+  font-family: var(--font-h);
+  font-size: 1.4rem;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+}
+
+.logo span { color: var(--accent); }
+
+nav ul {
+  display: flex;
+  gap: 32px;
+  list-style: none;
+}
+
+nav ul a {
+  font-size: .875rem;
+  font-weight: 500;
+  color: var(--muted);
+  transition: color .2s;
+}
+
+nav ul a:hover { color: var(--accent); }
+
+.nav-cta {
+  background: var(--accent);
+  color: #0a0d14 !important;
+  padding: 8px 20px;
+  border-radius: 50px;
+  font-weight: 600 !important;
+  transition: box-shadow .2s, transform .2s !important;
+}
+
+.nav-cta:hover {
+  box-shadow: var(--glow);
+  transform: translateY(-1px);
+}
+
+
+/* =========================
+   CONTENEDOR GENERAL
+========================= */
+section {
+  position: relative;
+  z-index: 1;
+}
+
+.container {
+  max-width: 1140px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+
+/* =========================
+   HERO / INICIO
+========================= */
+#hero {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  padding-top: 100px;
+  overflow: hidden;
+}
+
+.hero-blob {
+  position: absolute;
+  width: 700px;
+  height: 700px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(0,229,160,.13) 0%, transparent 70%);
+  top: -100px;
+  right: -200px;
+  pointer-events: none;
+  animation: pulse 6s ease-in-out infinite;
+}
+
+.hero-blob2 {
+  position: absolute;
+  width: 500px;
+  height: 500px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(0,255,255,.07) 0%, transparent 70%);
+  bottom: 50px;
+  left: -150px;
+  pointer-events: none;
+  animation: pulse 8s ease-in-out infinite reverse;
+}
+
+@keyframes pulse {
+  0%,100% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+}
+
+.hero-content { max-width: 680px; }
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(0,229,160,.1);
+  border: 1px solid rgba(0,229,160,.25);
+  color: var(--accent);
+  font-size: .78rem;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  padding: 6px 16px;
+  border-radius: 50px;
+  margin-bottom: 24px;
+}
+
+.badge::before {
+  content: '';
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--accent);
+  animation: blink 1.5s infinite;
+}
+
+@keyframes blink {
+  0%,100% { opacity: 1; }
+  50% { opacity: .3; }
+}
+
+h1 {
+  font-family: var(--font-h);
+  font-size: clamp(2.8rem, 5vw, 4.5rem);
+  font-weight: 800;
+  line-height: 1.05;
+  letter-spacing: -2px;
+  margin-bottom: 24px;
+}
+
+h1 em {
+  color: var(--accent);
+  font-style: normal;
+}
+
+.hero-sub {
+  font-size: 1.15rem;
+  color: var(--muted);
+  max-width: 540px;
+  margin-bottom: 40px;
+}
+
+.btn-group {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--accent);
+  color: #0a0d14;
+  font-family: var(--font-h);
+  font-weight: 700;
+  font-size: .95rem;
+  padding: 14px 32px;
+  border-radius: 50px;
+  transition: box-shadow .25s, transform .25s;
+}
+
+.btn-primary:hover {
+  box-shadow: var(--glow);
+  transform: translateY(-2px);
+}
+
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid var(--border);
+  color: var(--text);
+  font-weight: 500;
+  font-size: .95rem;
+  padding: 14px 32px;
+  border-radius: 50px;
+  transition: border-color .25s, color .25s;
+}
+
+.btn-secondary:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.hero-stats {
+  display: flex;
+  gap: 48px;
+  margin-top: 64px;
+  padding-top: 40px;
+  border-top: 1px solid var(--border);
+}
+
+.stat-num {
+  font-family: var(--font-h);
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--accent);
+}
+
+.stat-label {
+  font-size: .82rem;
+  color: var(--muted);
+  margin-top: 2px;
+}
+
+
+/* =========================
+   SERVICIOS
+========================= */
+#servicios { padding: 120px 0; }
+
+.section-tag {
+  font-size: .75rem;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 12px;
+}
+
+h2 {
+  font-family: var(--font-h);
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 800;
+  letter-spacing: -1.5px;
+  line-height: 1.1;
+  margin-bottom: 16px;
+}
+
+.section-sub {
+  color: var(--muted);
+  font-size: 1.05rem;
+  max-width: 520px;
+  margin-bottom: 60px;
+}
+
+.services-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 20px;
+}
+
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  padding: 36px 32px;
+  transition: border-color .3s, transform .3s, box-shadow .3s;
+  position: relative;
+  overflow: hidden;
+}
+
+.card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--accent), var(--accent2));
+  opacity: 0;
+  transition: opacity .3s;
+}
+
+.card:hover {
+  border-color: rgba(0,229,160,.3);
+  transform: translateY(-4px);
+  box-shadow: 0 20px 60px rgba(0,0,0,.4);
+}
+
+.card:hover::before { opacity: 1; }
+
+.card-icon {
+  width: 52px;
+  height: 52px;
+  border-radius: 12px;
+  background: rgba(0,229,160,.12);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  margin-bottom: 20px;
+}
+
+.card h3 {
+  font-family: var(--font-h);
+  font-size: 1.15rem;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.card p {
+  color: var(--muted);
+  font-size: .9rem;
+  line-height: 1.65;
+}
+
+.card-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 18px;
+}
+
+.tag {
+  background: rgba(255,255,255,.05);
+  border: 1px solid var(--border);
+  font-size: .72rem;
+  font-weight: 500;
+  padding: 3px 10px;
+  border-radius: 50px;
+  color: var(--muted);
+}
+
+
+/* =========================
+   POR QUÉ
+========================= */
+#porque { padding: 100px 0; }
+
+.why-inner {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: center;
+}
+
+.why-visual {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.why-circle {
+  width: 300px;
+  height: 300px;
+  border-radius: 50%;
+  border: 1px solid rgba(0,229,160,.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.why-circle::before {
+  content: '';
+  position: absolute;
+  inset: 20px;
+  border-radius: 50%;
+  border: 1px dashed rgba(0,229,160,.15);
+  animation: spin 20s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.why-inner-circle {
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(0,229,160,.2), rgba(0,229,160,.05));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 4rem;
+}
+
+.orbit-item {
+  position: absolute;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--card);
+  border: 1px solid rgba(0,229,160,.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+}
+
+.orbit-item:nth-child(1) { top: -10px; right: 50px; }
+.orbit-item:nth-child(2) { bottom: 20px; right: -10px; }
+.orbit-item:nth-child(3) { bottom: -10px; left: 50px; }
+.orbit-item:nth-child(4) { top: 30px; left: -10px; }
+
+.why-list {
+  list-style: none;
+  margin-top: 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.why-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  font-size: .95rem;
+}
+
+.why-check {
+  width: 22px;
+  height: 22px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: rgba(0,229,160,.15);
+  border: 1px solid rgba(0,229,160,.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--accent);
+  font-size: .75rem;
+  margin-top: 2px;
+}
+
+
+/* =========================
+   TECNOLOGÍAS
+========================= */
+#tecnologias { padding: 100px 0; }
+
+.tech-track-wrap {
+  overflow: hidden;
+  margin-top: 48px;
+  position: relative;
+}
+
+.tech-track-wrap::before,
+.tech-track-wrap::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 100px;
+  z-index: 2;
+}
+
+.tech-track-wrap::before {
+  left: 0;
+  background: linear-gradient(90deg, var(--bg), transparent);
+}
+
+.tech-track-wrap::after {
+  right: 0;
+  background: linear-gradient(-90deg, var(--bg), transparent);
+}
+
+.tech-track {
+  display: flex;
+  gap: 20px;
+  animation: marquee 20s linear infinite;
+  width: max-content;
+}
+
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+.tech-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  padding: 14px 24px;
+  border-radius: 50px;
+  font-weight: 500;
+  font-size: .9rem;
+  white-space: nowrap;
+  transition: border-color .3s;
+}
+
+.tech-pill:hover {
+  border-color: rgba(0,229,160,.4);
+}
+
+.tech-icon { font-size: 1.3rem; }
+
+
+/* =========================
+   CONTACTO
+========================= */
+#contacto { padding: 120px 0; }
+
+.contact-wrap {
+  display: grid;
+  grid-template-columns: 1fr 1.4fr;
+  gap: 60px;
+  align-items: start;
+}
+
+.contact-info h2 { margin-bottom: 16px; }
+
+.contact-info p {
+  color: var(--muted);
+  margin-bottom: 32px;
+}
+
+.contact-detail {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 16px;
+  font-size: .9rem;
+}
+
+.contact-detail-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  background: rgba(0,229,160,.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  flex-shrink: 0;
+}
+
+.wa-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: #25D366;
+  color: #fff;
+  font-family: var(--font-h);
+  font-weight: 700;
+  padding: 14px 28px;
+  border-radius: 50px;
+  margin-top: 24px;
+  transition: box-shadow .25s, transform .25s;
+}
+
+.wa-btn:hover {
+  box-shadow: 0 0 30px rgba(37,211,102,.4);
+  transform: translateY(-2px);
+}
+
+
+/* =========================
+   FORMULARIO
+========================= */
+.form-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 40px;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 16px;
+}
+
+label {
+  font-size: .8rem;
+  font-weight: 600;
+  letter-spacing: .5px;
+  color: var(--muted);
+}
+
+input,
+select,
+textarea {
+  background: rgba(255,255,255,.04);
+  border: 1px solid var(--border);
+  color: var(--text);
+  font-family: var(--font-b);
+  font-size: .9rem;
+  padding: 12px 16px;
+  border-radius: 10px;
+  outline: none;
+  transition: border-color .2s, box-shadow .2s;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(0,229,160,.1);
+}
+
+select option { background: var(--card); }
+
+textarea {
+  resize: vertical;
+  min-height: 110px;
+}
+
+.btn-submit {
+  width: 100%;
+  background: var(--accent);
+  color: #0a0d14;
+  font-family: var(--font-h);
+  font-size: 1rem;
+  font-weight: 700;
+  border: none;
+  padding: 15px;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: box-shadow .25s, transform .25s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.btn-submit:hover {
+  box-shadow: var(--glow);
+  transform: translateY(-2px);
+}
+
+
+/* =========================
+   MENSAJE ENVIADO
+========================= */
+.form-success {
+  display: none;
+  text-align: center;
+  padding: 40px 20px;
+}
+
+.form-success .success-icon {
+  font-size: 3rem;
+  margin-bottom: 16px;
+}
+
+.form-success h3 {
+  font-family: var(--font-h);
+  margin-bottom: 8px;
+  color: var(--accent);
+}
+
+.btn-nuevo {
+  margin-top: 24px;
+  background: transparent;
+  border: 1px solid var(--accent);
+  color: var(--accent);
+  font-family: var(--font-h);
+  font-weight: 600;
+  padding: 12px 28px;
+  border-radius: 50px;
+  cursor: pointer;
+  font-size: .9rem;
+  transition: background .2s, transform .2s;
+}
+
+.btn-nuevo:hover {
+  background: rgba(0,229,160,.1);
+  transform: translateY(-1px);
+}
+
+
+/* =========================
+   FOOTER
+========================= */
+footer {
+  border-top: 1px solid var(--border);
+  padding: 40px 0;
+  text-align: center;
+  color: var(--muted);
+  font-size: .85rem;
+  position: relative;
+  z-index: 1;
+}
+
+footer span { color: var(--accent); }
+
+
+/* =========================
+   BOTÓN FLOTANTE WHATSAPP
+========================= */
+.wa-float {
+  position: fixed;
+  bottom: 28px;
+  right: 28px;
+  z-index: 200;
+  width: 58px;
+  height: 58px;
+  background: #25D366;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 6px 30px rgba(37,211,102,.5);
+  transition: transform .25s, box-shadow .25s;
+  cursor: pointer;
+}
+
+.wa-float:hover {
+  transform: scale(1.12);
+  box-shadow: 0 10px 40px rgba(37,211,102,.6);
+}
+
+.wa-float svg {
+  width: 30px;
+  height: 30px;
+  fill: #fff;
+}
+
+.wa-float::before {
+  content: '';
+  position: absolute;
+  inset: -4px;
+  border-radius: 50%;
+  background: rgba(37,211,102,.25);
+  animation: wa-ring 2s ease-out infinite;
+}
+
+@keyframes wa-ring {
+  to {
+    transform: scale(1.5);
+    opacity: 0;
+  }
+}
+
+
+/* =========================
+   CHATBOT
+========================= */
+.chatbot-bubble {
+  position: fixed;
+  bottom: 100px;
+  right: 28px;
+  z-index: 200;
+  width: 52px;
+  height: 52px;
+  background: var(--accent);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  cursor: pointer;
+  box-shadow: var(--glow);
+  transition: transform .25s;
+}
+
+.chatbot-bubble:hover { transform: scale(1.1); }
+
+.chatbot-window {
+  position: fixed;
+  bottom: 165px;
+  right: 28px;
+  z-index: 199;
+  width: 320px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 20px 60px rgba(0,0,0,.5);
+  display: none;
+  flex-direction: column;
+}
+
+.chatbot-window.open { display: flex; }
+
+.chat-header {
+  background: linear-gradient(135deg, rgba(0,229,160,.2), rgba(0,255,255,.1));
+  padding: 16px 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border-bottom: 1px solid var(--border);
+}
+
+.chat-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--accent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+}
+
+.chat-name {
+  font-family: var(--font-h);
+  font-weight: 700;
+  font-size: .9rem;
+}
+
+.chat-status {
+  font-size: .72rem;
+  color: var(--accent);
+}
+
+.chat-messages {
+  padding: 16px;
+  min-height: 200px;
+  max-height: 260px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.msg {
+  max-width: 85%;
+  padding: 10px 14px;
+  border-radius: 14px;
+  font-size: .85rem;
+  line-height: 1.5;
+}
+
+.msg.bot {
+  background: rgba(255,255,255,.07);
+  border-radius: 14px 14px 14px 4px;
+  align-self: flex-start;
+}
+
+.msg.user {
+  background: rgba(0,229,160,.15);
+  border-radius: 14px 14px 4px 14px;
+  align-self: flex-end;
+  color: var(--accent);
+}
+
+.chat-input-row {
+  display: flex;
+  gap: 8px;
+  padding: 12px 16px;
+  border-top: 1px solid var(--border);
+}
+
+.chat-input {
+  flex: 1;
+  background: rgba(255,255,255,.05);
+  border: 1px solid var(--border);
+  color: var(--text);
+  font-family: var(--font-b);
+  font-size: .85rem;
+  padding: 9px 14px;
+  border-radius: 50px;
+  outline: none;
+}
+
+.chat-input:focus { border-color: var(--accent); }
+
+.chat-send {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--accent);
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #0a0d14;
+  font-size: 1rem;
+  transition: transform .2s;
+}
+
+.chat-send:hover { transform: scale(1.1); }
+
+.chat-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding: 0 16px 12px;
+}
+
+.chat-opt {
+  background: rgba(0,229,160,.1);
+  border: 1px solid rgba(0,229,160,.25);
+  color: var(--accent);
+  font-size: .75rem;
+  font-weight: 600;
+  padding: 5px 12px;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: background .2s;
+}
+
+.chat-opt:hover {
+  background: rgba(0,229,160,.2);
+}
+
+@media (max-width: 768px) {
+  nav { padding: 16px 20px; }
+
+  nav ul { display: none; }
+
+  h1 { font-size: 2.4rem; }
+
+  .hero-stats { gap: 28px; }
+
+  .why-inner,
+  .contact-wrap {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+
+  .why-visual { display: none; }
+
+  .form-row { grid-template-columns: 1fr; }
+
+  .form-card { padding: 24px; }
+}
+
+.fade-up {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity .6s ease, transform .6s ease;
+}
+
+.fade-up.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+ </style>
+</head>
+<body>
+<div class="grid-bg"></div>
+
+<nav>
+  <div class="logo">Dev<span>Studio</span></div>
+  <ul>
+    <li><a href="#servicios">Servicios</a></li>
+    <li><a href="#porque">¿Por qué?</a></li>
+    <li><a href="#tecnologias">Tecnologías</a></li>
+    <li><a href="#contacto" class="nav-cta">Contacto</a></li>
+  </ul>
+</nav>
+
+<section id="hero">
+  <div class="hero-blob"></div>
+  <div class="hero-blob2"></div>
+  <div class="container">
+    <div class="hero-content fade-up">
+      <div class="badge">Soluciones Digitales Profesionales</div>
+      <h1>Convertimos tus <em>ideas</em> en proyectos reales</h1>
+      <p class="hero-sub">Desarrollamos páginas web modernas, sistemas CRUD, formularios inteligentes y bases de datos con tecnología de vanguardia.</p>
+      <div class="btn-group">
+        <a href="#contacto" class="btn-primary">Habla con nosotros →</a>
+        <a href="#servicios" class="btn-secondary">Ver servicios</a>
+      </div>
+      <div class="hero-stats">
+        <div><div class="stat-num">100%</div><div class="stat-label">Proyectos funcionales</div></div>
+        <div><div class="stat-num">4+</div><div class="stat-label">Tecnologías dominadas</div></div>
+        <div><div class="stat-num">24h</div><div class="stat-label">Respuesta rápida</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="servicios">
+  <div class="container">
+    <div class="section-tag fade-up">¿Qué hacemos?</div>
+    <h2 class="fade-up">Nuestros <em style="color:var(--accent)">Servicios</em></h2>
+    <p class="section-sub fade-up">Soluciones digitales completas, desde el diseño hasta la base de datos.</p>
+    <div class="services-grid">
+      <div class="card fade-up">
+        <div class="card-icon">🌐</div><h3>Páginas Web</h3>
+        <p>Sitios modernos, rápidos y totalmente adaptables a cualquier dispositivo.</p>
+        <div class="card-tags"><span class="tag">Responsive</span><span class="tag">Moderno</span><span class="tag">SEO</span></div>
+      </div>
+      <div class="card fade-up">
+        <div class="card-icon">⚙️</div><h3>Sistemas CRUD</h3>
+        <p>Creamos sistemas completos para <strong style="color:var(--text)">Crear, Leer, Actualizar y Eliminar</strong> datos.</p>
+        <div class="card-tags"><span class="tag">MongoDB</span><span class="tag">Node.js</span><span class="tag">API REST</span></div>
+      </div>
+      <div class="card fade-up">
+        <div class="card-icon">📋</div><h3>Formularios Inteligentes</h3>
+        <p>Formularios que guardan datos en MongoDB y envían correos automáticos.</p>
+        <div class="card-tags"><span class="tag">MongoDB</span><span class="tag">Nodemailer</span><span class="tag">Automático</span></div>
+      </div>
+      <div class="card fade-up">
+        <div class="card-icon">💬</div><h3>Contacto Rápido</h3>
+        <p>Integración directa con WhatsApp para comunicación inmediata.</p>
+        <div class="card-tags"><span class="tag">WhatsApp</span><span class="tag">Email</span><span class="tag">Chat</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="porque">
+  <div class="container">
+    <div class="why-inner">
+      <div class="why-visual fade-up">
+        <div class="why-circle">
+          <div class="why-inner-circle">💡</div>
+          <div class="orbit-item">🚀</div>
+          <div class="orbit-item">📊</div>
+          <div class="orbit-item">🔒</div>
+          <div class="orbit-item">⚡</div>
+        </div>
+      </div>
+      <div class="fade-up">
+        <div class="section-tag">¿Por qué lo hacemos?</div>
+        <h2>La tecnología <em style="color:var(--accent)">transforma</em> negocios</h2>
+        <p style="color:var(--muted); margin-bottom:16px;">La programación no es solo código — es la herramienta más poderosa para resolver problemas reales y llevar tu negocio al siguiente nivel.</p>
+        <ul class="why-list">
+          <li><div class="why-check">✓</div><span>Automatiza tareas repetitivas y ahorra horas de trabajo manual</span></li>
+          <li><div class="why-check">✓</div><span>Centraliza tu información en bases de datos seguras y accesibles</span></li>
+          <li><div class="why-check">✓</div><span>Proyecta una imagen profesional que genera confianza en tus clientes</span></li>
+          <li><div class="why-check">✓</div><span>Crece sin límites — tus sistemas escalan contigo</span></li>
+          <li><div class="why-check">✓</div><span>Ideas creativas convertidas en proyectos funcionales y fáciles de usar</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="tecnologias">
+  <div class="container">
+    <div class="section-tag fade-up" style="text-align:center">Stack Tecnológico</div>
+    <h2 class="fade-up" style="text-align:center">Las <em style="color:var(--accent)">herramientas</em> que usamos</h2>
+    <p class="section-sub fade-up" style="margin:0 auto; text-align:center">Tecnologías modernas y confiables para cada proyecto.</p>
+    <div class="tech-track-wrap fade-up">
+      <div class="tech-track">
+        <div class="tech-pill"><span class="tech-icon">🌐</span> HTML5</div>
+        <div class="tech-pill"><span class="tech-icon">🎨</span> CSS</div>
+        <div class="tech-pill"><span class="tech-icon">⚡</span> JavaScript</div>
+        <div class="tech-pill"><span class="tech-icon">🟢</span> Node.js</div>
+        <div class="tech-pill"><span class="tech-icon">🍃</span> MongoDB</div>
+        <div class="tech-pill"><span class="tech-icon">📨</span> Nodemailer</div>
+        <div class="tech-pill"><span class="tech-icon">💬</span> WhatsApp API</div>
+        <div class="tech-pill"><span class="tech-icon">🔌</span> Express.js</div>
+        <div class="tech-pill"><span class="tech-icon">🌐</span> HTML5</div>
+        <div class="tech-pill"><span class="tech-icon">🎨</span> CSS</div>
+        <div class="tech-pill"><span class="tech-icon">⚡</span> JavaScript</div>
+        <div class="tech-pill"><span class="tech-icon">🟢</span> Node.js</div>
+        <div class="tech-pill"><span class="tech-icon">🍃</span> MongoDB</div>
+        <div class="tech-pill"><span class="tech-icon">📨</span> Nodemailer</div>
+        <div class="tech-pill"><span class="tech-icon">💬</span> WhatsApp API</div>
+        <div class="tech-pill"><span class="tech-icon">🔌</span> Express.js</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="contacto">
+  <div class="container">
+    <div class="contact-wrap">
+      <div class="fade-up">
+        <div class="section-tag">Contáctanos</div>
+        <h2>Hablemos de tu <em style="color:var(--accent)">proyecto</em></h2>
+        <p>¿Tienes una idea? Cuéntanos y la convertimos en realidad. Respondemos en menos de 24 horas.</p>
+        <div class="contact-detail">
+          <div class="contact-detail-icon">📧</div>
+          <div><div style="font-weight:500">Email Principal</div><div style="color:var(--muted);font-size:.85rem">dulcemariahernadez@devstudio.com</div></div>
+        </div>
+        <div class="contact-detail">
+          <div class="contact-detail-icon">📧</div>
+          <div><div style="font-weight:500">Soporte</div><div style="color:var(--muted);font-size:.85rem">mariadelosangeleslechuga@devstudio.com</div></div>
+        </div>
+        <div class="contact-detail">
+          <div class="contact-detail-icon">📍</div>
+          <div><div style="font-weight:500">Disponibilidad</div><div style="color:var(--muted);font-size:.85rem">Lunes – Sábado · 9am – 7pm</div></div>
+        </div>
+        <a href="https://wa.me/+527751643784?text=Hola,me%20interesan%20algunos%20de%20sus%20servicios" target="_blank" class="wa-btn">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+          Escribir por WhatsApp
+        </a>
+      </div>
+
+      <div class="form-card fade-up">
+        <div id="formContent">
+          <h3 style="font-family:var(--font-h);font-size:1.3rem;margin-bottom:6px;font-weight:700">Envíanos un mensaje</h3>
+          <p style="color:var(--muted);font-size:.85rem;margin-bottom:24px">Todos los campos son confidenciales.</p>
+          <div class="form-row">
+            <div class="form-group">
+              <label>NOMBRE *</label>
+              <input type="text" id="nombre" placeholder="Tu nombre completo" required />
+            </div>
+            <div class="form-group">
+              <label>TELÉFONO</label>
+              <input type="tel" id="telefono" placeholder="+52 000 000 0000" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label>CORREO ELECTRÓNICO *</label>
+            <input type="email" id="correo" placeholder="tu@correo.com" required />
+          </div>
+          <div class="form-group">
+            <label>SERVICIO DE INTERÉS</label>
+            <select id="servicio">
+              <option value="">— Selecciona un servicio —</option>
+              <option>Página Web</option>
+              <option>Sistema CRUD</option>
+              <option>Formulario con Base de Datos</option>
+              <option>Otro</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>MENSAJE *</label>
+            <textarea id="mensaje" placeholder="Cuéntanos sobre tu proyecto..."></textarea>
+          </div>
+          <button class="btn-submit" onclick="enviarFormulario()">Enviar mensaje ✈️</button>
+        </div>
+
+        <!-- PANTALLA ÉXITO -->
+        <div class="form-success" id="formSuccess">
+          <div class="success-icon">✅</div>
+          <h3>¡Mensaje enviado!</h3>
+          <p style="color:var(--muted);font-size:.9rem">Hemos recibido tu información y te responderemos pronto.</p>
+          <p style="color:var(--muted);font-size:.85rem;margin-top:8px">También te llegará confirmación a tu correo.</p>
+          <button class="btn-nuevo" onclick="nuevoMensaje()">✉️ Enviar otro mensaje</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <p>© 2025 <span>DevStudio</span> — Servicios de Programación y Desarrollo Web</p>
+    <p style="margin-top:6px;font-size:.78rem">Transformando ideas en proyectos funcionales</p>
+  </div>
+</footer>
+
+<a href="https://wa.me/+527751643784?text=Hola, me interesan algunos de sus servicios me podria porporcionar información," target="_blank" class="wa-float" title="WhatsApp">
+  <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+</a>
+
+<div class="chatbot-bubble" onclick="toggleChat()" title="Chat">💬</div>
+<div class="chatbot-window" id="chatWindow">
+  <div class="chat-header">
+    <div class="chat-avatar">🤖</div>
+    <div><div class="chat-name">DevBot</div><div class="chat-status">● En línea</div></div>
+  </div>
+  <div class="chat-messages" id="chatMessages">
+    <div class="msg bot">¡Hola! 👋 Soy DevBot. ¿En qué te puedo ayudar hoy?</div>
+  </div>
+  <div class="chat-options" id="chatOptions">
+    <span class="chat-opt" onclick="quickReply('Quiero una página web')">🌐 Página web</span>
+    <span class="chat-opt" onclick="quickReply('Sistema CRUD')">⚙️ CRUD</span>
+    <span class="chat-opt" onclick="quickReply('¿Cuánto cuesta?')">💰 Precios</span>
+    <span class="chat-opt" onclick="quickReply('Contactar a alguien')">📞 Contacto</span>
+  </div>
+  <div class="chat-input-row">
+    <input class="chat-input" id="chatInput" placeholder="Escribe aquí..." onkeydown="if(event.key==='Enter')sendChat()" />
+    <button class="chat-send" onclick="sendChat()">➤</button>
+  </div>
+</div>
+
+<script>
+  /* ─── SCROLL FADE ─── */
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.fade-up').forEach(el => obs.observe(el));
+
+  /* ─── ENVIAR FORMULARIO ─── */
+  async function enviarFormulario() {
+    const nombre   = document.getElementById('nombre').value.trim();
+    const correo   = document.getElementById('correo').value.trim();
+    const telefono = document.getElementById('telefono').value.trim();
+    const servicio = document.getElementById('servicio').value;
+    const mensaje  = document.getElementById('mensaje').value.trim();
+
+    if (!nombre || !correo || !mensaje) {
+      alert('Por favor completa los campos obligatorios (*)');
+      return;
+    }
+
+    try {
+      const res = await fetch('/api/contacto', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ nombre, correo, telefono, servicio, mensaje })
+      });
+      const data = await res.json();
+      if (data.ok) {
+        document.getElementById('formContent').style.display = 'none';
+        document.getElementById('formSuccess').style.display = 'block';
+      } else {
+        alert('Error al enviar: ' + data.error);
+      }
+    } catch (err) {
+      alert('No se pudo conectar con el servidor.');
+    }
+  }
+
+  /* ─── NUEVO MENSAJE ─── */
+  function nuevoMensaje() {
+    document.getElementById('nombre').value   = '';
+    document.getElementById('correo').value   = '';
+    document.getElementById('telefono').value = '';
+    document.getElementById('servicio').value = '';
+    document.getElementById('mensaje').value  = '';
+    document.getElementById('formSuccess').style.display = 'none';
+    document.getElementById('formContent').style.display = 'block';
+  }
+
+  /* ─── CHATBOT ─── */
+  const RESPONSES = {
+    default:      '¡Gracias por tu mensaje! Para una respuesta más detallada, usa el formulario de contacto o escríbenos por WhatsApp. 😊',
+    'página web': 'Creamos sitios modernos, adaptables y optimizados para negocios. ¿Te gustaría cotizar uno? 🌐',
+    'crud':       'Los sistemas CRUD permiten gestionar tu información completa: crear, leer, actualizar y eliminar datos con MongoDB. 🗄️',
+    'precio':     'Los precios varían según el proyecto. Contáctanos y te damos una cotización personalizada sin costo. 💰',
+    'contacto':   'Puedes escribirnos por WhatsApp o llenar el formulario de esta página. ¡Respondemos en menos de 24h! 📞',
+  };
+
+  function toggleChat() { document.getElementById('chatWindow').classList.toggle('open'); }
+
+  function addMsg(text, type) {
+    const box = document.getElementById('chatMessages');
+    const m = document.createElement('div');
+    m.className = 'msg ' + type;
+    m.textContent = text;
+    box.appendChild(m);
+    box.scrollTop = box.scrollHeight;
+  }
+
+  function botReply(userText) {
+    const lower = userText.toLowerCase();
+    let resp = RESPONSES.default;
+    if (lower.includes('web') || lower.includes('página'))        resp = RESPONSES['página web'];
+    else if (lower.includes('crud') || lower.includes('sistema')) resp = RESPONSES['crud'];
+    else if (lower.includes('precio') || lower.includes('costo') || lower.includes('cuánto')) resp = RESPONSES['precio'];
+    else if (lower.includes('contacto') || lower.includes('contactar')) resp = RESPONSES['contacto'];
+    setTimeout(() => addMsg(resp, 'bot'), 600);
+  }
+
+  function sendChat() {
+    const input = document.getElementById('chatInput');
+    const text = input.value.trim();
+    if (!text) return;
+    addMsg(text, 'user');
+    input.value = '';
+    document.getElementById('chatOptions').style.display = 'none';
+    botReply(text);
+  }
+
+  function quickReply(text) {
+    addMsg(text, 'user');
+    document.getElementById('chatOptions').style.display = 'none';
+    botReply(text);
+  }
+</script>
+</body>
+</html>

@@ -1,0 +1,20 @@
+body {
+  font-family: Arial;
+  background: #111;
+  color: white;
+}
+
+input, textarea, select {
+  display: block;
+  margin: 10px 0;
+  padding: 10px;
+  width: 300px;
+}
+
+button {
+  background: #7b0f1a;
+  color: white;
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+}
