@@ -1,17 +1,20 @@
 const express    = require('express');
 const mongoose   = require('mongoose');
-const nodemailer = require('nodemailer');
+const sgMail     = require('@sendgrid/mail');
 const dotenv     = require('dotenv');
 const cors       = require('cors');
 const path       = require('path');
 
 dotenv.config({ path: path.resolve(__dirname, '../.env') });
+
+sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+
 const app = express();
 
 // Middlewares
 app.use(cors());
 app.use(express.json());
-app.use(express.static(path.join(__dirname, '../')));  // sirve tu HTML
+app.use(express.static(path.join(__dirname, '../')));
 
 // ── Conectar a MongoDB Atlas ──
 mongoose.connect(process.env.MONGODB_URI)
@@ -29,18 +32,6 @@ const ContactoSchema = new mongoose.Schema({
 });
 const Contacto = mongoose.model('Contacto', ContactoSchema);
 
-const transporter = nodemailer.createTransport({
-  host: 'smtp.gmail.com',
-  port: 587,
-  secure: false,
-  auth: {
-    user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_PASS,
-  },
-  connectionTimeout: 10000,
-  greetingTimeout: 10000,
-  socketTimeout: 15000,
-});
 // ── RUTA: recibir formulario ──
 app.post('/api/contacto', async (req, res) => {
   const { nombre, correo, telefono, servicio, mensaje } = req.body;
@@ -51,10 +42,10 @@ app.post('/api/contacto', async (req, res) => {
     await nuevo.save();
     console.log('💾 Guardado en MongoDB:', nombre);
 
-    // 2. Enviar correo al dueño del negocio
-    await transporter.sendMail({
-      from:    `"DevStudio Web" <${process.env.EMAIL_USER}>`,
+    // 2. Correo al dueño
+    await sgMail.send({
       to:      process.env.EMAIL_DESTINO,
+      from:    process.env.EMAIL_USER,
       subject: `📩 Nuevo contacto: ${nombre}`,
       html: `
         <h2 style="color:#00e5a0">Nuevo mensaje desde la web</h2>
@@ -68,10 +59,10 @@ app.post('/api/contacto', async (req, res) => {
       `
     });
 
-    // 3. Enviar confirmación al cliente
-    await transporter.sendMail({
-      from:    `"DevStudio" <${process.env.EMAIL_USER}>`,
+    // 3. Confirmación al cliente
+    await sgMail.send({
       to:      correo,
+      from:    process.env.EMAIL_USER,
       subject: '✅ Recibimos tu mensaje — DevStudio',
       html: `
         <h2>¡Hola ${nombre}! 👋</h2>
