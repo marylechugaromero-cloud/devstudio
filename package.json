@@ -9,6 +9,7 @@
     "cors": "^2.8.6",
     "dotenv": "^16.6.1",
     "express": "^4.22.1",
+    "mongodb": "^7.2.0",
     "mongoose": "^7.8.9",
     "nodemailer": "^8.0.7"
   },
