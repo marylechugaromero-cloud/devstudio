@@ -31,13 +31,17 @@ const Contacto = mongoose.model('Contacto', ContactoSchema);
 
 // ── Configurar correo (Gmail) ──
 const transporter = nodemailer.createTransport({
-  service: 'gmail',
+  host: 'smtp.gmail.com',
+  port: 465,
+  secure: true,
   auth: {
     user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_PASS,   // Contraseña de aplicación (no tu pass normal)
-  }
+    pass: process.env.EMAIL_PASS,
+  },
+  connectionTimeout: 10000,
+  greetingTimeout: 10000,
+  socketTimeout: 15000,
 });
-
 // ── RUTA: recibir formulario ──
 app.post('/api/contacto', async (req, res) => {
   const { nombre, correo, telefono, servicio, mensaje } = req.body;
